@@ -1,0 +1,22 @@
+{
+  "name": "node-etc",
+  "version": "0.0.0",
+  "description": "Configuration loading for node.js applications",
+  "main": "./lib/etc",
+  "scripts": {
+    "test": "./node_modules/mocha/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cpsubrian/node-etc.git"
+  },
+  "keywords": [
+    "config",
+    "configuration",
+    "yaml",
+    "json",
+    "redis"
+  ],
+  "author": "Brian Link",
+  "license": "MIT"
+}
