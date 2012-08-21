@@ -1,5 +1,5 @@
 {
-  "name": "node-etc",
+  "name": "etc",
   "version": "0.0.0",
   "description": "Configuration loading for node.js applications",
   "main": "./lib/etc",
