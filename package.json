@@ -1,7 +1,7 @@
 {
   "name": "etc",
   "version": "0.0.0",
-  "description": "Configuration loading for node.js applications",
+  "description": "Configuration loader for node.js applications",
   "main": "etc.js",
   "scripts": {
     "test": "./node_modules/mocha/.bin/mocha --reporter spec"

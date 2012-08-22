@@ -1,7 +1,57 @@
 node-etc
 ========
 
-Configuration loading for node.js applications.
+Configuration loader for node.js applications.
+
+Idea
+----
+Your application probably needs to load configuration from multiple different
+sources and make them available (with fallbacks) as one object. Etc is here to
+help! Etc provides a fairly complete API for loading configuration from a
+variety of sources, however, its primary intended use case is to load config from
+(in order of importance): argv, environment, files in `./etc`, and defaults.
+
+Examples
+--------
+#### Easy Mode
+```js
+var conf = require('etc')().all().toJSON();
+```
+
+#### Easy Mode done manually
+```js
+var etc = require('etc')();
+
+etc
+  .argv()
+  .env()
+  .etc();
+
+var conf = etc.toJSON();
+```
+
+#### Load configuration from argv, env, a file, and defaults.
+```js
+var etc = require('etc')();
+
+etc.argv();
+etc.env();
+etc.file('/path/to/you/file/config.json');
+etc.add({
+  my: 'defaults'
+});
+
+var conf = etc.toJSON();
+```
+
+#### Load configuration from `/etc/myapp/*`
+```js
+var etc = require('etc')();
+
+etc.folder('/etc/myapp');
+
+var conf = etc.toJSON();
+```
 
 
 Credits
