@@ -11,8 +11,8 @@ Inspired by [dominictarr / rc](https://github.com/dominictarr/rc) and
 with configuration for the configuration and less trolling in the README :)
 
 
-Developed by TerraEclipse
--------------------------
+Developed by [Terra Eclipse](http://www.terraeclipse.com)
+--------------------------------------------------------
 Terra Eclipse, Inc. is a nationally recognized political technology and
 strategy firm located in Aptos, CA and Washington, D.C.
 
@@ -21,7 +21,7 @@ strategy firm located in Aptos, CA and Washington, D.C.
 
 License
 -------
-Copyright (C) <year> <copyright holders>
+Copyright (C) 2012 Terra Eclipse, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
