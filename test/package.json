@@ -1,0 +1,15 @@
+{
+  "name": "Placeholder package.json for testing etc",
+  "etc": {
+    "fruit": {
+      "red": {
+        "apple": "fuji"
+      }
+    },
+    "meat": {
+      "white": {
+        "chicken": "free-range"
+      }
+    }
+  }
+}

@@ -2,13 +2,21 @@
   "name": "etc",
   "version": "0.0.0",
   "description": "Configuration loading for node.js applications",
-  "main": "./lib/etc",
+  "main": "etc.js",
   "scripts": {
     "test": "./node_modules/mocha/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/cpsubrian/node-etc.git"
+  },
+  "dependencies": {
+    "proto-list-deep": "*",
+    "optimist": "~0.3.4",
+    "glob": "~3.1.12"
+  },
+  "devDependencies": {
+    "mocha": "*"
   },
   "keywords": [
     "config",
