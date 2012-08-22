@@ -7,8 +7,8 @@ Configuration loading for node.js applications.
 Credits
 -------
 Inspired by [dominictarr/rc](https://github.com/dominictarr/rc) and
-[dominictarr/config-chain](https://github.com/dominictarr/config-chain), except
-with configuration for the configuration and less trolling in the README :)
+[dominictarr/config-chain](https://github.com/dominictarr/config-chain), but
+with more customization and less trolling in the README :)
 
 
 Developed by [Terra Eclipse](http://www.terraeclipse.com)
