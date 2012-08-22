@@ -6,8 +6,8 @@ Configuration loading for node.js applications.
 
 Credits
 -------
-Inspired by [dominictarr / rc](https://github.com/dominictarr/rc) and
-[dominictarr / config-chain](https://github.com/dominictarr/config-chain), except
+Inspired by [dominictarr/rc](https://github.com/dominictarr/rc) and
+[dominictarr/config-chain](https://github.com/dominictarr/config-chain), except
 with configuration for the configuration and less trolling in the README :)
 
 
@@ -19,8 +19,8 @@ strategy firm located in Aptos, CA and Washington, D.C.
 [http://www.terraeclipse.com](http://www.terraeclipse.com)
 
 
-License
--------
+License: MIT
+------------
 Copyright (C) 2012 Terra Eclipse, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
