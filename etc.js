@@ -28,7 +28,7 @@ Etc.prototype.get = function(key) {
       conf = conf[part];
     }
     else {
-      throw new Error('No value for `' + key + '` found in conf.');
+      return undefined;
     }
   });
 
