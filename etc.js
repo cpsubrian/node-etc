@@ -115,6 +115,15 @@ Etc.prototype.file = function(file, named) {
   return this;
 };
 
+Etc.prototype.folder = function(dir) {
+  var self = this;
+  var files = glob.sync(dir + '/**/*.*');
+  files.forEach(function(file) {
+    var name = path.basename(file, path.extname(file));
+    self.file(file, name !== 'config');
+  });
+};
+
 Etc.prototype.pkg = function() {
   var pkgPath = findPackage();
   if (pkgPath) {
@@ -136,11 +145,7 @@ Etc.prototype.etc = function(dir) {
   }
 
   if (dir) {
-    var files = glob.sync(dir + '/**/*.*');
-    files.forEach(function(file) {
-      var name = path.basename(file, path.extname(file));
-      self.file(file, name !== 'config');
-    });
+    self.folder(dir);
   }
 
   return this;
