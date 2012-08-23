@@ -8,10 +8,13 @@ Configuration loader for node.js applications.
 Idea
 ----
 Your application probably needs to load configuration from multiple sources and
-make them available (with fallbacks) as one object. Etc is here to
-help! Etc provides a fairly complete API for loading configuration from a
-variety of sources, however, its primary intended use case is to load config from
-(in order of importance): argv, environment, files in `./etc`, and defaults.
+make them available as one object. Etc is here to help!
+
+Etc provides a fairly complete API for loading configuration from a
+variety of sources, however, its been engineered to easily load config from
+(in order of precedence): argv, environment, files in `./etc`, package.json, and
+ defaults. Etc. also supports a simple plugin system so new file parsers or other
+ sources of configuration can be handled.
 
 Examples
 --------
@@ -27,7 +30,8 @@ var etc = require('etc')();
 etc
   .argv()
   .env()
-  .etc();
+  .etc()
+  .pkg();
 
 var conf = etc.toJSON();
 ```
@@ -87,31 +91,32 @@ deliminated strings such as `db:host`, which will dive into the configuration
 to grab a nested value.
 
 ### etc.set(key, value)
-(Chainable) Set a new configuration value. The key can be a simple string or a deliminated
-string.
+Set a new configuration value. The key can be a simple string or a deliminated
+string. (Chainable)
 
 ### etc.toJSON()
 Returns all of the configuration, deep-merged into a single object.
 
 ### etc.use(plugin, options)
-(Chainable) Attach an etc plugin. See more below.
+Attach an etc plugin. See more below. (Chainable)
 
 ### etc.all()
-(Chainable) Alias for `etc.argv().env().etc().pkg()`
+Alias for `etc.argv().env().etc().pkg()` (Chainable)
 
 ### etc.argv()
-(Chainable) Parses argv using [optimist](https://github.com/substack/node-optimist)
-and adds it to the configuration.
+Parses argv using [optimist](https://github.com/substack/node-optimist)
+and adds it to the configuration. (Chainable)
 
 ### etc.env(prefix [app], delim [_])
-(Chainable) Adds any environment variables that start with the prefix
+Adds any environment variables that start with the prefix
 (defaults to 'app_') to the configuration. The prefix is stripped from the key.
+ (Chainable)
 
 ### etc.add(obj)
-(Chainable) Add configuration from an object literal.
+Add configuration from an object literal. (Chainable)
 
 ### etc.file(filePath, [nameed])
-(Chainable) Add configuration from a file. A suitable parser must be registered
+Add configuration from a file. A suitable parser must be registered
 in etc.parsers ('.json' and '.js' supported by default). If `named` is true
 then the extension will be stripped from the filename and the contents will
 be added nested under that name.
@@ -125,14 +130,15 @@ will be added like:
 }
 
 ```
+(Chainable)
 
 ### etc.folder(dir)
-(Chainable) Loops through the files in `dir` and adds them to the configuration.
+Loops through the files in `dir` and adds them to the configuration.
 All files will be added with `named=true` (see etc.file()), except for one
-special case when the filename is `config.*`.
+special case when the filename is `config.*`. (Chainable)
 
 ### etc.pkg()
-(Chainable) Try to find the local `package.json` for the consumer of etc and
+Try to find the local `package.json` for the consumer of etc and
 look for an `etc` key in it. If it exists then add the contents to the
 configuration.
 
@@ -153,10 +159,11 @@ Example:
   }
 }
 ```
+(Chainable)
 
 ### etc.etc()
-(Chainable) Look for `[app root]/etc` (based on location of package.json) and
-load it using `etc.folder()`.
+Look for `[app root]/etc` (based on location of package.json) and
+load it using `etc.folder()`. (Chainable)
 
 Plugins
 -------
