@@ -124,8 +124,14 @@ Etc.prototype.folder = function(dir) {
   });
 };
 
-Etc.prototype.pkg = function() {
-  var pkgPath = findPackage();
+Etc.prototype.pkg = function(module) {
+  var pkgPath;
+  if (module) {
+    pkgPath = findPackage(path.dirname(module.filename));
+  }
+  else {
+    pkgPath = findPackage();
+  }
   if (pkgPath) {
     var pkg = require(pkgPath);
     if (pkg.etc) {
