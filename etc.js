@@ -151,7 +151,7 @@ Etc.prototype.etc = function(dir) {
   return this;
 };
 
-Etc.prototype.parseJSON = function(file, name) {
+Etc.prototype.parseJSON = function(filePath) {
   return require(file);
 };
 

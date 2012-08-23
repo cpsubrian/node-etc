@@ -158,7 +158,24 @@ load it using `etc.folder()`.
 
 Plugins
 -------
-Coming Soon!
+
+Etc supports a simple plugin system, primarily useful for adding new file
+parsers. Plugins should implement an `attach` method like so:
+
+```js
+exports.attach = function(options) {
+  options = options || {};
+
+  // Plugin will be attached with the scope set to an etc instance.
+  var etc = this;
+
+  etc.parsers['xml'] = xmlparser;
+}
+
+function xmlparser(filePath) {
+  // Parse the file and return an object literal.
+}
+```
 
 ### etc-yaml
 Coming soon
