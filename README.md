@@ -3,6 +3,8 @@ node-etc
 
 Configuration loader for node.js applications.
 
+[![build status](https://secure.travis-ci.org/cpsubrian/node-etc.png)](http://travis-ci.org/cpsubrian/node-etc)
+
 Idea
 ----
 Your application probably needs to load configuration from multiple different
