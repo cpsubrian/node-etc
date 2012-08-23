@@ -47,10 +47,30 @@ var conf = etc.toJSON();
 #### Load configuration from `/etc/myapp/*`
 ```js
 var etc = require('etc')();
-
 etc.folder('/etc/myapp');
-
 var conf = etc.toJSON();
+```
+
+#### Work with configuration using deliminated keys
+```js
+var etc = require('etc')();
+
+etc.add({
+  host: 'localhost',
+  port: 3000,
+  meta: {
+    title: 'Cool title'
+  }
+});
+
+console.log(etc.get('meta:title'));
+// Cool title
+
+etc.set('meta:description', 'This is a really cool app');
+
+console.log(etc.get('meta'));
+// { title: 'Cool title',
+//  description: 'This is a really cool app' }
 ```
 
 
