@@ -209,7 +209,7 @@ Credits
 -------
 Inspired by [dominictarr/rc](https://github.com/dominictarr/rc) and
 [dominictarr/config-chain](https://github.com/dominictarr/config-chain), but
-with more customization and less trolling in the README :)
+with deep-merging and less trolling in the README :)
 
 
 Developed by [Terra Eclipse](http://www.terraeclipse.com)
