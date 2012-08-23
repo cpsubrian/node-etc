@@ -187,7 +187,20 @@ function xmlparser(filePath) {
 ```
 
 ### etc-yaml
-Coming soon
+Support for YAML configuration files can be added via [etc-yaml](https://github.com/cpsubrian/node-etc-yaml).
+```js
+var etc = require('etc'),
+    path = require('path'),
+    conf = etc();
+
+conf.use(require('etc-yaml'));
+
+// Load a yaml file.
+conf.file(path.join(__dirname, 'config.yaml'));
+
+// Print the config.
+console.log(conf.toJSON());
+```
 
 ### etc-redis
 Coming soon
