@@ -7,8 +7,8 @@ Configuration loader for node.js applications.
 
 Idea
 ----
-Your application probably needs to load configuration from multiple different
-sources and make them available (with fallbacks) as one object. Etc is here to
+Your application probably needs to load configuration from multiple sources and
+make them available (with fallbacks) as one object. Etc is here to
 help! Etc provides a fairly complete API for loading configuration from a
 variety of sources, however, its primary intended use case is to load config from
 (in order of importance): argv, environment, files in `./etc`, and defaults.
