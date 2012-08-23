@@ -167,7 +167,6 @@ load it using `etc.folder()`. (Chainable)
 
 Plugins
 -------
-
 Etc supports a simple plugin system, primarily useful for adding new file
 parsers. Plugins should implement an `attach` method like so:
 
