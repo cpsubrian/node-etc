@@ -152,7 +152,7 @@ Etc.prototype.etc = function(dir) {
 };
 
 Etc.prototype.parseJSON = function(filePath) {
-  return require(file);
+  return require(filePath);
 };
 
 function findPackage(dir) {
