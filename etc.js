@@ -117,7 +117,7 @@ Etc.prototype.file = function(file, named) {
 
 Etc.prototype.folder = function(dir) {
   var self = this;
-  var files = glob.sync(dir + '/**/*.*');
+  var files = glob.sync(dir + '/*.*');
   files.forEach(function(file) {
     var name = path.basename(file, path.extname(file));
     self.file(file, name !== 'config');

@@ -6,5 +6,11 @@
   "main": "example.js",
   "dependencies": {
     "etc": "*"
+  },
+  "etc": {
+    "db": {
+      "host": "localhost",
+      "port": 3000
+    }
   }
 }
