@@ -127,7 +127,12 @@ Etc.prototype.folder = function(dir) {
 Etc.prototype.pkg = function(module) {
   var pkgPath;
   if (module) {
-    pkgPath = findPackage(path.dirname(module.filename));
+    if (typeof module === 'string') {
+      pkgPath = module;
+    }
+    else {
+      pkgPath = findPackage(path.dirname(module.filename));
+    }
   }
   else {
     pkgPath = findPackage();
