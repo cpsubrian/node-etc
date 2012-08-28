@@ -4,6 +4,7 @@ var optimist = require('optimist');
 var fs = require('fs');
 var path = require('path');
 var glob = require('glob');
+var findPackage = require('witwip');
 
 module.exports = function(delim) {
   return new Etc(delim);
@@ -124,18 +125,18 @@ Etc.prototype.folder = function(dir) {
   });
 };
 
-Etc.prototype.pkg = function(module) {
+Etc.prototype.pkg = function(findModule) {
   var pkgPath;
-  if (module) {
-    if (typeof module === 'string') {
-      pkgPath = module;
+  if (findModule) {
+    if (typeof findModule === 'string') {
+      pkgPath = findModule;
     }
     else {
-      pkgPath = findPackage(path.dirname(module.filename));
+      pkgPath = findPackage(findModule);
     }
   }
   else {
-    pkgPath = findPackage();
+    pkgPath = findPackage(module.parent);
   }
   if (pkgPath) {
     var pkg = require(pkgPath);
@@ -149,7 +150,7 @@ Etc.prototype.pkg = function(module) {
 Etc.prototype.etc = function(dir) {
   var self = this;
   if (!dir) {
-    var pkgPath = findPackage();
+    var pkgPath = findPackage(module.parent);
     if (pkgPath) {
       dir = path.join(path.dirname(pkgPath), 'etc');
     }
@@ -165,17 +166,3 @@ Etc.prototype.etc = function(dir) {
 Etc.prototype.parseJSON = function(filePath) {
   return require(filePath);
 };
-
-function findPackage(dir) {
-  dir = dir || path.dirname(module.parent.filename);
-  var pkgPath = path.join(dir, 'package.json');
-  if (dir === '/') {
-    return false;
-  }
-  else if (fs.existsSync(pkgPath)) {
-    return pkgPath;
-  }
-  else {
-    return findPackage(path.resolve(dir, '..'));
-  }
-}

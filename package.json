@@ -13,7 +13,8 @@
   "dependencies": {
     "proto-list-deep": "*",
     "optimist": "~0.3.4",
-    "glob": "~3.1.12"
+    "glob": "~3.1.12",
+    "witwip": "~0.0.2"
   },
   "devDependencies": {
     "mocha": "*"
