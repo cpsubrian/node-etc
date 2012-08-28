@@ -1,10 +1,10 @@
 {
   "name": "etc",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Configuration loader for node.js applications",
   "main": "etc.js",
   "scripts": {
-    "test": "./node_modules/mocha/.bin/mocha --reporter spec"
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "repository": {
     "type": "git",
