@@ -3,6 +3,7 @@ var ProtoListDeep = require('proto-list-deep');
 var optimist = require('optimist');
 var fs = require('fs');
 var path = require('path');
+var existsSync = fs.existsSync ? fs.existsSync : path.existsSync;
 var glob = require('glob');
 var findPackage = require('witwip');
 
@@ -98,7 +99,7 @@ Etc.prototype.add = function(obj) {
 };
 
 Etc.prototype.file = function(file, named) {
-  if (fs.existsSync(file)) {
+  if (existsSync(file)) {
     var ext = path.extname(file).substr(1);
     if (this.parsers[ext]) {
       var parsed = this.parsers[ext].call(this, file);
