@@ -26,7 +26,7 @@ Etc.prototype.get = function(key) {
   if (typeof key === 'undefined') return conf;
 
   return key.split(this.delim).reduce(function(prev, part) {
-    return typeof prev[part] !== 'undefined' ? prev[part] : undefined;
+    return prev !== undefined && typeof prev[part] !== 'undefined' ? prev[part] : undefined;
   }, conf);
 };
 
