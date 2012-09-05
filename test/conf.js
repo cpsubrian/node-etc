@@ -53,4 +53,9 @@ describe('Configuration methods', function() {
     conf.set('foo', 'bar');
     assert.strictEqual(conf.get('blah'), undefined);
   });
+
+  it('multi-part made-up key returns undefined', function() {
+    conf.set('foo', {bar: true});
+    assert.strictEqual(conf.get('baz:lol'), undefined);
+  });
 });
