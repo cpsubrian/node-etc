@@ -23,18 +23,11 @@ util.inherits(Etc, ProtoListDeep);
 
 Etc.prototype.get = function(key) {
   var conf = this.deepSnapshot;
-  var parts = key.split(this.delim);
+  if (typeof key === 'undefined') return conf;
 
-  parts.forEach(function(part) {
-    if (conf[part]) {
-      conf = conf[part];
-    }
-    else {
-      return undefined;
-    }
-  });
-
-  return conf;
+  return key.split(this.delim).reduce(function(prev, part) {
+    return typeof prev[part] !== 'undefined' ? prev[part] : undefined;
+  }, conf);
 };
 
 Etc.prototype.set = function(key, value) {
