@@ -49,4 +49,7 @@ describe('Configuration methods', function() {
     assert.deepEqual(conf.get('fruit'), {green: {apple: 'granny'}, red: {apple: 'fuji'}});
   });
 
+  it('made-up key returns null', function() {
+    assert.strictEqual(conf.get('blah'), null);
+  });
 });
