@@ -133,11 +133,15 @@ Etc.prototype.pkg = function(findModule) {
       pkgPath = findModule;
     }
     else {
-      pkgPath = findPackage(findModule);
+      try {
+        pkgPath = findPackage(findModule);
+      } catch(e){} // Do nothing with the error    
     }
   }
   else {
-    pkgPath = findPackage(module.parent);
+    try {
+      pkgPath = findPackage(module.parent);
+    } catch(e){} // Do nothing with the error    
   }
   if (pkgPath) {
     var pkg = require(pkgPath);
@@ -151,7 +155,11 @@ Etc.prototype.pkg = function(findModule) {
 Etc.prototype.etc = function(dir) {
   var self = this;
   if (!dir) {
-    var pkgPath = findPackage(module.parent);
+    var pkgPath;
+    try {
+      pkgPath = findPackage(module.parent);
+    } catch(e){} // Do nothing with the error
+
     if (pkgPath) {
       dir = path.join(path.dirname(pkgPath), 'etc');
     }
