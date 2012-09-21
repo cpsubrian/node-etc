@@ -115,7 +115,7 @@ Etc.prototype.folder = function(dir) {
   var files = glob.sync(dir + '/*.*');
   files.forEach(function(file) {
     var name = path.basename(file, path.extname(file));
-    self.file(file, name !== 'config');
+    self.file(file, name.indexOf('conf') !== 0);
   });
 };
 
@@ -128,13 +128,13 @@ Etc.prototype.pkg = function(findModule) {
     else {
       try {
         pkgPath = findPackage(findModule);
-      } catch(e){} // Do nothing with the error    
+      } catch(e){} // Do nothing with the error
     }
   }
   else {
     try {
       pkgPath = findPackage(module.parent);
-    } catch(e){} // Do nothing with the error    
+    } catch(e){} // Do nothing with the error
   }
   if (pkgPath) {
     var pkg = require(pkgPath);
