@@ -42,6 +42,7 @@ describe('Configuration methods', function() {
     assert.deepEqual(conf.get('candy'), {chewy: 'gum'});
     assert.deepEqual(conf.get('fruit'), {green: {apple: 'granny'}});
     assert.deepEqual(conf.get('meat'), {red: {steak: "ribeye"}});
+    assert.deepEqual(conf.get('drinks'), {cold: {soda: 'coke'}, hot: {coffee: 'french roast'}});
   });
 
   it('can add conf using the `all` alias', function() {

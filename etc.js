@@ -91,15 +91,22 @@ Etc.prototype.add = function(obj) {
   return this;
 };
 
-Etc.prototype.file = function(file, named) {
+Etc.prototype.file = function(file, named, baseDir) {
   if (existsSync(file)) {
     var ext = path.extname(file).substr(1);
     if (this.parsers[ext]) {
       var parsed = this.parsers[ext].call(this, file);
       if (named) {
-        var name = path.basename(file, path.extname(file));
-        var obj = {};
-        obj[name] = parsed;
+        var parts = file.substr(baseDir.length).replace(/^\//, '').split('/'),
+            obj = {};
+
+        parts.reduce(function(prev, next, i) {
+          var last = (i === parts.length - 1);
+          var name  = last ? path.basename(next, path.extname(next)) : next;
+          prev[name] = last ? parsed : {};
+          return prev[next];
+        }, obj);
+
         this.push(obj);
       }
       else {
@@ -112,10 +119,10 @@ Etc.prototype.file = function(file, named) {
 
 Etc.prototype.folder = function(dir) {
   var self = this;
-  var files = glob.sync(dir + '/*.*');
+  var files = glob.sync(dir + '/**/*.*');
   files.forEach(function(file) {
-    var name = path.basename(file, path.extname(file));
-    self.file(file, name.indexOf('conf') !== 0);
+    var rel = file.substr(dir.length).replace(/^\//, '');
+    self.file(file, rel.indexOf('conf') !== 0, dir);
   });
 };
 
