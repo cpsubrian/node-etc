@@ -133,6 +133,7 @@ Etc.prototype.folder = function(dir) {
     var rel = file.substr(dir.length).replace(/^\//, '');
     self.file(file, rel.indexOf('conf') !== 0, dir);
   });
+  return this;
 };
 
 Etc.prototype.pkg = function(findModule) {
