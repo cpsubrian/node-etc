@@ -59,4 +59,15 @@ describe('Configuration methods', function() {
     conf.set('foo', {bar: true});
     assert.strictEqual(conf.get('baz:lol'), undefined);
   });
+
+  it('can reverse', function () {
+    conf.add({movie: 'The Matrix'});
+    assert.strictEqual(conf.get('movie'), 'The Matrix');
+    conf.add({movie: 'Ironman'});
+    assert.strictEqual(conf.get('movie'), 'The Matrix');
+    conf.reverse().add({movie: 'Ghostbusters'});
+    assert.strictEqual(conf.get('movie'), 'Ghostbusters');
+    conf.reverse().add({movie: 'StarWars'});
+    assert.strictEqual(conf.get('movie'), 'Ghostbusters');
+  });
 });

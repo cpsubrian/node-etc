@@ -17,9 +17,15 @@ function Etc(delim) {
     'json': this.parseJSON,
     'js': this.parseJSON
   };
+  this.mode = 'push';
   ProtoListDeep.call(this, this.delim);
 }
 util.inherits(Etc, ProtoListDeep);
+
+Etc.prototype.reverse = function() {
+  this.mode = (this.mode === 'push') ? 'unshift' : 'push';
+  return this;
+};
 
 Etc.prototype.get = function(key) {
   var conf = this.deepSnapshot;
@@ -64,9 +70,9 @@ Etc.prototype.all = function() {
 
 Etc.prototype.argv = function() {
   var self = this;
-  Object.keys(optimist.argv).forEach(function(key) {
-    self.set(key, optimist.argv[key]);
-  });
+  if (optimist.argv) {
+    this[this.mode](optimist.argv);
+  }
   return this;
 };
 
@@ -76,18 +82,21 @@ Etc.prototype.env = function(prefix, delim) {
 
   var self = this;
   var len = prefix.length;
+  var env = {};
 
   Object.keys(process.env).forEach(function(key) {
     if (key.indexOf(prefix) === 0) {
-      self.set(key.substr(len), process.env[key]);
+      env[key.substr(len)] = process.env[key];
     }
   });
+
+  this[this.mode](env);
 
   return this;
 };
 
 Etc.prototype.add = function(obj) {
-  this.push(obj);
+  this[this.mode](obj);
   return this;
 };
 
@@ -107,10 +116,10 @@ Etc.prototype.file = function(file, named, baseDir) {
           return prev[next];
         }, obj);
 
-        this.push(obj);
+        this[this.mode](obj);
       }
       else {
-        this.push(parsed);
+        this[this.mode](parsed);
       }
     }
   }
@@ -146,7 +155,7 @@ Etc.prototype.pkg = function(findModule) {
   if (pkgPath) {
     var pkg = require(pkgPath);
     if (pkg.etc) {
-      this.push(pkg.etc);
+      this[this.mode](pkg.etc);
     }
   }
   return this;

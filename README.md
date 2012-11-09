@@ -165,6 +165,13 @@ Example:
 Look for `[app root]/etc` (based on location of package.json) and
 load it using `etc.folder()`. (Chainable)
 
+### etc.reverse()
+By default, each call to etc that adds more configuration pushes it on the
+bottom of the stack. If you wish to unshift conf onto the top of the stack
+instead you can call `etc.reverse()` followed by any other etc commands.
+Until you call `etc.reverse()` again all subsequent etc methods will continue
+to unshift.
+
 Plugins
 -------
 Etc supports a simple plugin system, primarily useful for adding new file
