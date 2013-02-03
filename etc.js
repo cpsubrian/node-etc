@@ -1,11 +1,12 @@
-var util = require('util');
-var ProtoListDeep = require('proto-list-deep');
-var optimist = require('optimist');
-var fs = require('fs');
-var path = require('path');
-var existsSync = fs.existsSync ? fs.existsSync : path.existsSync;
-var glob = require('glob');
-var findPackage = require('witwip');
+var util = require('util')
+  , ProtoListDeep = require('proto-list-deep')
+  , optimist = require('optimist')
+  , fs = require('fs')
+  , path = require('path')
+  , existsSync = fs.existsSync ? fs.existsSync : path.existsSync
+  , glob = require('glob')
+  , findPackage = require('witwip')
+  , eventflow = require('eventflow');
 
 module.exports = function(delim) {
   return new Etc(delim);
@@ -19,6 +20,7 @@ function Etc(delim) {
   };
   this.mode = 'push';
   ProtoListDeep.call(this, this.delim);
+  eventflow(this);
 }
 util.inherits(Etc, ProtoListDeep);
 
@@ -184,4 +186,12 @@ Etc.prototype.etc = function(dir) {
 
 Etc.prototype.parseJSON = function(filePath) {
   return require(filePath);
+};
+
+Etc.prototype.load = function (cb) {
+  this.series('load', cb);
+};
+
+Etc.prototype.save = function (cb) {
+  this.series('save', cb);
 };
