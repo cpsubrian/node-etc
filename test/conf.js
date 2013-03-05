@@ -1,4 +1,4 @@
-var etc = require('../'),
+var etc = require('../etc'),
     assert = require('assert');
 
 describe('Configuration methods', function() {
@@ -43,6 +43,18 @@ describe('Configuration methods', function() {
     assert.deepEqual(conf.get('fruit'), {green: {apple: 'granny'}});
     assert.deepEqual(conf.get('meat'), {red: {steak: "ribeye"}});
     assert.deepEqual(conf.get('drinks'), {cold: {soda: 'coke'}, hot: {coffee: 'french roast'}});
+  });
+
+  it('can read conf from environment', function () {
+    process.env['test_lang'] = 'en';
+    process.env['test_user:name'] = 'Brian';
+    process.env['test_user:handle'] = 'cpsubrian';
+    conf.env('test');
+    assert.deepEqual(conf.get('lang'), 'en');
+    assert.deepEqual(conf.get('user'), {name: 'Brian', handle: 'cpsubrian'});
+    delete process.env['test_lang'];
+    delete process.env['test_user:name'];
+    delete process.env['test_user:handle'];
   });
 
   it('can add conf using the `all` alias', function() {

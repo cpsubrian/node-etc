@@ -1,12 +1,13 @@
 var util = require('util')
-  , ProtoListDeep = require('proto-list-deep')
   , optimist = require('optimist')
   , fs = require('fs')
   , path = require('path')
   , existsSync = fs.existsSync ? fs.existsSync : path.existsSync
   , glob = require('glob')
   , findPackage = require('witwip')
-  , eventflow = require('eventflow');
+  , eventflow = require('eventflow')
+  , merge = require('tea-merge')
+  , clone = require('clone');
 
 module.exports = function(delim) {
   return new Etc(delim);
@@ -19,43 +20,46 @@ function Etc(delim) {
     'js': this.parseJSON
   };
   this.mode = 'push';
-  ProtoListDeep.call(this, this.delim);
+  this.conf = {};
   eventflow(this);
 }
-util.inherits(Etc, ProtoListDeep);
 
 Etc.prototype.reverse = function() {
   this.mode = (this.mode === 'push') ? 'unshift' : 'push';
   return this;
 };
 
-Etc.prototype.get = function(key) {
-  var conf = this.deepSnapshot;
-  if (typeof key === 'undefined') return conf;
-
-  return key.split(this.delim).reduce(function(prev, part) {
-    return prev !== undefined && typeof prev[part] !== 'undefined' ? prev[part] : undefined;
-  }, conf);
-};
-
-Etc.prototype.set = function(key, value) {
-  var full = {};
-  var level = full;
-  var parts = key.split(this.delim);
-  var last = parts.pop();
-
-  parts.forEach(function(part) {
-    if (!level[part]) level[part] = {};
-    level = level[part];
-  });
-  level[last] = value;
-
-  this.unshift(full);
+Etc.prototype.push = function (obj) {
+  this.conf = merge({}, clone(obj), this.conf);
   return this;
 };
 
+Etc.prototype.unshift = function (obj) {
+  merge(this.conf, clone(obj));
+  return this;
+};
+
+Etc.prototype.get = function(key) {
+  if (typeof key === 'undefined') return clone(this.conf);
+  return clone(key.split(this.delim).reduce(function(prev, part) {
+    return prev !== undefined && typeof prev[part] !== 'undefined' ? prev[part] : undefined;
+  }, this.conf));
+};
+
+Etc.prototype.set = function(key, value) {
+  return this.unshift(this.unflattenKey({}, key, value));
+};
+
+Etc.prototype.unflattenKey = function (dest, key, value) {
+  key.split(this.delim).reduce(function (obj, part, i, arr) {
+    obj[part] = (i === (arr.length - 1)) ? value : (obj[part] || {});
+    return obj[part];
+  }, dest);
+  return dest;
+};
+
 Etc.prototype.toJSON = function(callback) {
-  return this.deepSnapshot;
+  return clone(this.conf);
 };
 
 Etc.prototype.use = function(plugin, options) {
@@ -66,14 +70,16 @@ Etc.prototype.use = function(plugin, options) {
 };
 
 Etc.prototype.all = function() {
-  this.argv().env().etc().pkg();
-  return this;
+  return this.argv().env().etc().pkg();
 };
 
 Etc.prototype.argv = function() {
-  var self = this;
+  var self = this, args = {};
   if (optimist.argv) {
-    this[this.mode](optimist.argv);
+    Object.keys(optimist.argv).forEach(function (key) {
+      self.unflattenKey(args, key, optimist.argv[key]);
+    });
+    this[this.mode](args);
   }
   return this;
 };
@@ -88,7 +94,7 @@ Etc.prototype.env = function(prefix, delim) {
 
   Object.keys(process.env).forEach(function(key) {
     if (key.indexOf(prefix) === 0) {
-      env[key.substr(len)] = process.env[key];
+      self.unflattenKey(env, key.substr(len), process.env[key]);
     }
   });
 
@@ -98,8 +104,7 @@ Etc.prototype.env = function(prefix, delim) {
 };
 
 Etc.prototype.add = function(obj) {
-  this[this.mode](obj);
-  return this;
+  return this[this.mode](obj);
 };
 
 Etc.prototype.file = function(file, named, baseDir) {
@@ -190,8 +195,10 @@ Etc.prototype.parseJSON = function(filePath) {
 
 Etc.prototype.load = function (cb) {
   this.series('load', cb);
+  return this;
 };
 
 Etc.prototype.save = function (cb) {
   this.series('save', cb);
+  return this;
 };
