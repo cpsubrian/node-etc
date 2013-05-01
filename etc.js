@@ -9,11 +9,11 @@ var util = require('util')
   , merge = require('tea-merge')
   , clone = require('clone');
 
-module.exports = function(delim) {
+module.exports = function (delim) {
   return new Etc(delim);
 };
 
-function Etc(delim) {
+function Etc (delim) {
   this.delim = delim || ':';
   this.parsers = {
     'json': this.parseJSON,
@@ -24,7 +24,7 @@ function Etc(delim) {
   eventflow(this);
 }
 
-Etc.prototype.reverse = function() {
+Etc.prototype.reverse = function () {
   this.mode = (this.mode === 'push') ? 'unshift' : 'push';
   return this;
 };
@@ -39,14 +39,14 @@ Etc.prototype.unshift = function (obj) {
   return this;
 };
 
-Etc.prototype.get = function(key) {
+Etc.prototype.get = function (key) {
   if (typeof key === 'undefined') return clone(this.conf);
-  return clone(key.split(this.delim).reduce(function(prev, part) {
+  return clone(key.split(this.delim).reduce(function (prev, part) {
     return prev !== undefined && typeof prev[part] !== 'undefined' ? prev[part] : undefined;
   }, this.conf));
 };
 
-Etc.prototype.set = function(key, value) {
+Etc.prototype.set = function (key, value) {
   return this.unshift(this.unflattenKey({}, key, value));
 };
 
@@ -58,22 +58,22 @@ Etc.prototype.unflattenKey = function (dest, key, value) {
   return dest;
 };
 
-Etc.prototype.toJSON = function(callback) {
+Etc.prototype.toJSON = function (callback) {
   return clone(this.conf);
 };
 
-Etc.prototype.use = function(plugin, options) {
+Etc.prototype.use = function (plugin, options) {
   if (plugin.attach) {
     plugin.attach.call(this, options);
   }
   return this;
 };
 
-Etc.prototype.all = function() {
+Etc.prototype.all = function () {
   return this.argv().env().etc().pkg();
 };
 
-Etc.prototype.argv = function() {
+Etc.prototype.argv = function () {
   var self = this, args = {};
   if (optimist.argv) {
     Object.keys(optimist.argv).forEach(function (key) {
@@ -84,7 +84,7 @@ Etc.prototype.argv = function() {
   return this;
 };
 
-Etc.prototype.env = function(prefix, delim) {
+Etc.prototype.env = function (prefix, delim) {
   delim = delim || '_';
   prefix = (prefix || 'app') + delim;
 
@@ -92,7 +92,7 @@ Etc.prototype.env = function(prefix, delim) {
   var len = prefix.length;
   var env = {};
 
-  Object.keys(process.env).forEach(function(key) {
+  Object.keys(process.env).forEach(function (key) {
     if (key.indexOf(prefix) === 0) {
       self.unflattenKey(env, key.substr(len), process.env[key]);
     }
@@ -103,11 +103,11 @@ Etc.prototype.env = function(prefix, delim) {
   return this;
 };
 
-Etc.prototype.add = function(obj) {
+Etc.prototype.add = function (obj) {
   return this[this.mode](obj);
 };
 
-Etc.prototype.file = function(file, named, baseDir) {
+Etc.prototype.file = function (file, named, baseDir) {
   if (existsSync(file)) {
     var ext = path.extname(file).substr(1);
     if (this.parsers[ext]) {
@@ -116,7 +116,7 @@ Etc.prototype.file = function(file, named, baseDir) {
         var parts = file.substr(baseDir.length).replace(/^\//, '').split('/'),
             obj = {};
 
-        parts.reduce(function(prev, next, i) {
+        parts.reduce(function (prev, next, i) {
           var last = (i === parts.length - 1);
           var name  = last ? path.basename(next, path.extname(next)) : next;
           prev[name] = last ? parsed : {};
@@ -133,17 +133,17 @@ Etc.prototype.file = function(file, named, baseDir) {
   return this;
 };
 
-Etc.prototype.folder = function(dir) {
+Etc.prototype.folder = function (dir) {
   var self = this;
   var files = glob.sync(dir + '/**/*.*');
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     var rel = file.substr(dir.length).replace(/^\//, '');
     self.file(file, rel.indexOf('conf') !== 0, dir);
   });
   return this;
 };
 
-Etc.prototype.pkg = function(findModule) {
+Etc.prototype.pkg = function (findModule) {
   var pkgPath;
   if (findModule) {
     if (typeof findModule === 'string') {
@@ -152,13 +152,17 @@ Etc.prototype.pkg = function(findModule) {
     else {
       try {
         pkgPath = findPackage(findModule);
-      } catch(e){} // Do nothing with the error
+      }
+      // Do nothing with the error
+      catch(e){}
     }
   }
   else {
     try {
       pkgPath = findPackage(module.parent);
-    } catch(e){} // Do nothing with the error
+    }
+    // Do nothing with the error
+    catch(e){}
   }
   if (pkgPath) {
     var pkg = require(pkgPath);
@@ -169,13 +173,15 @@ Etc.prototype.pkg = function(findModule) {
   return this;
 };
 
-Etc.prototype.etc = function(dir) {
+Etc.prototype.etc = function (dir) {
   var self = this;
   if (!dir) {
     var pkgPath;
     try {
       pkgPath = findPackage(module.parent);
-    } catch(e){} // Do nothing with the error
+    }
+    // Do nothing with the error
+    catch(e){}
 
     if (pkgPath) {
       dir = path.join(path.dirname(pkgPath), 'etc');
@@ -189,7 +195,7 @@ Etc.prototype.etc = function(dir) {
   return this;
 };
 
-Etc.prototype.parseJSON = function(filePath) {
+Etc.prototype.parseJSON = function (filePath) {
   return require(filePath);
 };
 
