@@ -50,6 +50,24 @@ Etc.prototype.set = function (key, value) {
   return this.unshift(this.unflattenKey({}, key, value));
 };
 
+Etc.prototype.reset = function (key, value) {
+  key.split(this.delim).reduce(function (conf, part, i, arr) {
+    conf[part] = (i === (arr.length - 1)) ? value : (conf[part] || {});
+    return conf[part];
+  }, this.conf);
+  return this;
+};
+
+Etc.prototype.clear = function (key) {
+  key.split(this.delim).reduce(function (conf, part, i, arr) {
+    if (i === (arr.length - 1)) {
+      delete conf[part];
+    }
+    return conf[part] || {};
+  }, this.conf);
+  return this;
+};
+
 Etc.prototype.unflattenKey = function (dest, key, value) {
   key.split(this.delim).reduce(function (obj, part, i, arr) {
     obj[part] = (i === (arr.length - 1)) ? value : (obj[part] || {});

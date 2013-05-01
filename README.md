@@ -147,8 +147,17 @@ deliminated strings such as `db:host`, which will dive into the configuration
 to grab a nested value.
 
 ### etc.set(key, value)
-Set a new configuration value. The key can be a simple string or a deliminated
-string. (Chainable)
+Set a new configuration value. Primitives will override exsting values
+whereas Objects and Arrays will merge. The key can be a simple string or a
+deliminated string. (Chainable)
+
+### etc.reset(key, value)
+Set a configuration value, overriding whatever was there. The key can be a
+simple string or a deliminated string. (Chainable)
+
+### etc.clear(key)
+Clear the configuration stored under a given key. The key can be a simple string
+or a deliminated string. (Chainable)
 
 ### etc.toJSON()
 Returns all of the configuration, deep-merged into a single object.

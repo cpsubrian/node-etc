@@ -32,6 +32,30 @@ describe('Configuration methods', function () {
     assert.equal(conf.get('player:name'), 'Carlos');
   });
 
+  it('can reset conf', function() {
+    conf.add({name: 'Brian'});
+    conf.reset('name', 'Andrew');
+    assert.equal(conf.get('name'), 'Andrew');
+  });
+
+  it('can reset nested conf', function() {
+    conf.add({person: {name: 'Brian'}});
+    conf.reset('person:name', 'Andrew');
+    assert.equal(conf.get('person:name'), 'Andrew');
+  });
+
+  it('can clear conf', function () {
+    conf.add({name: 'Brian', lang: 'English'});
+    conf.clear('name');
+    assert.deepEqual(conf.get(), {lang: 'English'});
+  });
+
+  it('can clear nested conf', function () {
+    conf.add({person: {name: 'Brian', lang: 'English'}});
+    conf.clear('person:name');
+    assert.deepEqual(conf.get(), {person: {lang: 'English'}});
+  });
+
   it('can add conf from package.json', function () {
     conf.pkg();
     assert.deepEqual(conf.get('meat'), {white: {chicken: "free-range"}});
