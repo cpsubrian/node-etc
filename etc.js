@@ -5,7 +5,7 @@ var util = require('util')
   , existsSync = fs.existsSync ? fs.existsSync : path.existsSync
   , glob = require('glob')
   , findPackage = require('witwip')
-  , eventflow = require('eventflow')
+  , createHooks = require('stact-hooks')
   , merge = require('tea-merge')
   , clone = require('clone');
 
@@ -21,7 +21,7 @@ function Etc (delim) {
   };
   this.mode = 'push';
   this.conf = {};
-  eventflow(this);
+  this.hooks = createHooks();
 }
 
 Etc.prototype.reverse = function () {
@@ -218,11 +218,11 @@ Etc.prototype.parseJSON = function (filePath) {
 };
 
 Etc.prototype.load = function (cb) {
-  this.series('load', cb);
+  this.hooks('load').run(cb);
   return this;
 };
 
 Etc.prototype.save = function (cb) {
-  this.series('save', cb);
+  this.hooks('save').run(cb);
   return this;
 };

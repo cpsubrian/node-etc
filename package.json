@@ -14,7 +14,7 @@
     "optimist": "~0.3.4",
     "glob": "~3.1.12",
     "witwip": "~0.0.2",
-    "eventflow": "~0.0.11",
+    "stact-hooks": "~0.0.1",
     "tea-merge": "~0.1.0",
     "clone": "~0.1.6"
   },
