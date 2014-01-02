@@ -73,12 +73,24 @@ describe('Configuration methods', function () {
     process.env['test_lang'] = 'en';
     process.env['test_user:name'] = 'Brian';
     process.env['test_user:handle'] = 'cpsubrian';
-    conf.env('test');
+    conf.env('test_');
     assert.deepEqual(conf.get('lang'), 'en');
     assert.deepEqual(conf.get('user'), {name: 'Brian', handle: 'cpsubrian'});
     delete process.env['test_lang'];
     delete process.env['test_user:name'];
     delete process.env['test_user:handle'];
+  });
+
+  it('can read conf from environment using custom delimiter', function () {
+    process.env['test_lang'] = 'fr';
+    process.env['test_user_name'] = 'Joe';
+    process.env['test_user_handle'] = 'joemc';
+    conf.env('test_', '_');
+    assert.deepEqual(conf.get('lang'), 'fr');
+    assert.deepEqual(conf.get('user'), {name: 'Joe', handle: 'joemc'});
+    delete process.env['test_lang'];
+    delete process.env['test_user_name'];
+    delete process.env['test_user_handle'];
   });
 
   it('can add conf using the `all` alias', function () {

@@ -68,8 +68,8 @@ Etc.prototype.clear = function (key) {
   return this;
 };
 
-Etc.prototype.unflattenKey = function (dest, key, value) {
-  key.split(this.delim).reduce(function (obj, part, i, arr) {
+Etc.prototype.unflattenKey = function (dest, key, value, delim) {
+  key.split(delim || this.delim).reduce(function (obj, part, i, arr) {
     obj[part] = (i === (arr.length - 1)) ? value : (obj[part] || {});
     return obj[part];
   }, dest);
@@ -103,8 +103,8 @@ Etc.prototype.argv = function () {
 };
 
 Etc.prototype.env = function (prefix, delim) {
-  delim = delim || '_';
-  prefix = (prefix || 'app') + delim;
+  delim = delim || ':';
+  prefix = prefix || 'app_';
 
   var self = this;
   var len = prefix.length;
@@ -112,7 +112,7 @@ Etc.prototype.env = function (prefix, delim) {
 
   Object.keys(process.env).forEach(function (key) {
     if (key.indexOf(prefix) === 0) {
-      self.unflattenKey(env, key.substr(len), process.env[key]);
+      self.unflattenKey(env, key.substr(len), process.env[key], delim);
     }
   });
 
