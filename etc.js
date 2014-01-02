@@ -103,8 +103,8 @@ Etc.prototype.argv = function () {
 };
 
 Etc.prototype.env = function (prefix, delim) {
-  delim = delim || '_';
-  prefix = (prefix || 'app') + delim;
+  delim = delim || ':';
+  prefix = prefix || 'app_';
 
   var self = this;
   var len = prefix.length;
