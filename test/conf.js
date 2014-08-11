@@ -93,6 +93,19 @@ describe('Configuration methods', function () {
     delete process.env['test_user__handle'];
   });
 
+  it('can read conf from environment using custom parser', function () {
+    process.env['test_flag'] = 'true';
+    process.env['test_number'] = '42';
+    process.env['test_invalid'] = '0.3foo';
+    conf.env('test_', '_', JSON.parse);
+    assert.deepEqual(conf.get('flag'), true);
+    assert.deepEqual(conf.get('number'), 42);
+    assert.deepEqual(conf.get('invalid'), '0.3foo');
+    delete process.env['test_flag'];
+    delete process.env['test_number'];
+    delete process.env['test_invalid'];
+  });
+
   it('can add conf using the `all` alias', function () {
     conf.all();
     assert.deepEqual(conf.get('fruit'), {green: {apple: 'granny'}, red: {apple: 'fuji'}});

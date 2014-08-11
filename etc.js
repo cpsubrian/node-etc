@@ -102,7 +102,7 @@ Etc.prototype.argv = function () {
   return this;
 };
 
-Etc.prototype.env = function (prefix, delim) {
+Etc.prototype.env = function (prefix, delim, parser) {
   delim = delim || '_';
   prefix = prefix || 'app_';
 
@@ -111,8 +111,14 @@ Etc.prototype.env = function (prefix, delim) {
   var env = {};
 
   Object.keys(process.env).forEach(function (key) {
+    var value = process.env[key];
+    if (typeof parser === 'function') {
+      try {
+        value = parser(value);
+      } catch (e) {}
+    }
     if (key.indexOf(prefix) === 0) {
-      self.unflattenKey(env, key.substr(len), process.env[key], delim);
+      self.unflattenKey(env, key.substr(len), value, delim);
     }
   });
 
