@@ -91,18 +91,18 @@ Etc.prototype.all = function () {
   return this.argv().env().etc().pkg();
 };
 
-Etc.prototype.argv = function () {
+Etc.prototype.argv = function (parser) {
   var self = this, args = {};
   if (optimist.argv) {
     Object.keys(optimist.argv).forEach(function (key) {
-      self.unflattenKey(args, key, optimist.argv[key]);
+      self.unflattenKey(args, key, self.parseValue(optimist.argv[key], parser));
     });
     this[this.mode](args);
   }
   return this;
 };
 
-Etc.prototype.env = function (prefix, delim) {
+Etc.prototype.env = function (prefix, delim, parser) {
   delim = delim || '_';
   prefix = prefix || 'app_';
 
@@ -112,7 +112,7 @@ Etc.prototype.env = function (prefix, delim) {
 
   Object.keys(process.env).forEach(function (key) {
     if (key.indexOf(prefix) === 0) {
-      self.unflattenKey(env, key.substr(len), process.env[key], delim);
+      self.unflattenKey(env, key.substr(len), self.parseValue(process.env[key], parser), delim);
     }
   });
 
@@ -211,6 +211,16 @@ Etc.prototype.etc = function (dir) {
   }
 
   return this;
+};
+
+Etc.prototype.parseValue = function (value, parser) {
+  parser = parser || JSON.parse;
+  if (typeof parser === 'function') {
+    try {
+      value = parser(value);
+    } catch (e) {}
+  }
+  return value;
 };
 
 Etc.prototype.parseJSON = function (filePath) {
