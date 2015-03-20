@@ -153,6 +153,7 @@ Etc.prototype.file = function (file, named, baseDir) {
 
 Etc.prototype.folder = function (dir) {
   var self = this;
+  dir = path.resolve(dir)
   var files = glob.sync(dir + '/**/*.*');
   files.forEach(function (file) {
     var rel = file.substr(dir.length).replace(/^\//, '');
