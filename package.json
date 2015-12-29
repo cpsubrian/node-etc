@@ -1,6 +1,6 @@
 {
   "name": "etc",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Configuration loader for node.js applications",
   "main": "etc.js",
   "scripts": {
