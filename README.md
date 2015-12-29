@@ -16,62 +16,6 @@ variety of sources, however, its been engineered to easily load config from
  defaults. Etc. also supports a simple plugin system so new file parsers or other
  sources of configuration can be handled.
 
-Etc 0.2.x Changes
------------------
-**Attention Etc 0.1.x Users** - Etc 0.1.x used `proto-list-deep` as its primary
-internal configuration store. This was *probably* fast for writes, but as it
-turns out the deep-merging going on in `proto-list-deep` (for `conf.get()`) is
-pretty slow. I hit a personal use-case where I need reasonably fast `conf.get()`
-calls. I tried a few different iterations and came up with 0.2.x, which uses
-an object literal to store the conf and uses a combination of `clone` and
-`tea-merge` to handle sets and gets.
-
-The API has not changed, however, depending on your specific configuration
-**the values of your conf may have changed**. `tea-merge` is much more
-intelligent about merging than `proto-list-deep` was, specifically when
-dealing with arrays. If you upgrade, please check that your conf is
-still merging how you think it should. Thanks!
-
-Here is an idea of the speed-up from 0.1.x:
-
-```
-$ node bench/bench.js
-benchmarking /Users/cpsubrian/projects/node/brian/etc/bench/bench.js
-Please be patient.
-{ http_parser: '1.0',
-  node: '0.8.19',
-  v8: '3.11.10.25',
-  ares: '1.7.5-DEV',
-  uv: '0.8',
-  zlib: '1.2.3',
-  openssl: '1.0.0f' }
-Scores: (bigger is better)
-
-merge
-Raw:
- > 2187.812187812188
- > 2200.7992007992007
- > 2195.804195804196
- > 2194.805194805195
-Average (mean) 2194.805194805195
-
-proto
-Raw:
- > 14.381591562799617
- > 14.619883040935672
- > 14.45086705202312
- > 14.409221902017292
-Average (mean) 14.465390889443926
-
-Winner: merge
-Compared with next highest (proto), it's:
-99.34% faster
-151.73 times as fast
-2.18 order(s) of magnitude faster
-A LOT FASTER
-
-```
-
 Examples
 --------
 #### Easy Mode
@@ -274,7 +218,7 @@ console.log(conf.toJSON());
 ```
 
 ### etc-redis
-Coming soon
+Maybe eventually if I need it :) (or make it yourself).
 
 
 Credits
@@ -294,7 +238,7 @@ strategy firm located in Aptos, CA and Washington, D.C.
 
 License: MIT
 ------------
-Copyright (C) 2012 Terra Eclipse, Inc.
+Copyright (C) 2015 Terra Eclipse, Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
