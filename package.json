@@ -12,15 +12,15 @@
   },
   "dependencies": {
     "clone": "~0.1.6",
-    "glob": "^7.1.6",
+    "glob": "^7.2.3",
     "optimist": "~0.3.4",
     "stact-hooks": "~0.0.1",
     "tea-merge": "~0.1.0",
     "witwip": "~0.0.2"
   },
   "devDependencies": {
-    "mocha": "*",
-    "bench": "*"
+    "bench": "*",
+    "mocha": "^10.0.0"
   },
   "keywords": [
     "config",
