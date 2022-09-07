@@ -11,12 +11,12 @@
     "url": "git://github.com/cpsubrian/node-etc.git"
   },
   "dependencies": {
+    "@exosforked/witwip": "0.0.6",
     "clone": "~0.1.6",
     "glob": "^7.2.3",
     "optimist": "~0.3.4",
     "stact-hooks": "~0.0.1",
-    "tea-merge": "~0.1.0",
-    "witwip": "~0.0.2"
+    "tea-merge": "~0.1.0"
   },
   "devDependencies": {
     "bench": "*",
