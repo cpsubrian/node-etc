@@ -4,7 +4,7 @@
   "description": "Configuration loader for node.js applications",
   "main": "etc.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "bench": "*",
-    "mocha": "^10.0.0"
+    "jest": "^30.5.2"
   },
   "keywords": [
     "config",
