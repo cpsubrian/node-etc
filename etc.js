@@ -4,7 +4,7 @@ var util = require('util')
   , path = require('path')
   , existsSync = fs.existsSync ? fs.existsSync : path.existsSync
   , glob = require('glob')
-  , findPackage = require('@exosforked/witwip')
+  , findPackage = require('find-package-json')
   , createHooks = require('stact-hooks')
   , merge = require('tea-merge')
   , clone = require('clone');
@@ -12,6 +12,12 @@ var util = require('util')
 module.exports = function (delim) {
   return new Etc(delim);
 };
+
+function findPackagePath(sourceModule) {
+  var directory = path.dirname(sourceModule.filename);
+  var packagePath = findPackage(directory).next().filename;
+  return fs.realpathSync(packagePath);
+}
 
 function Etc (delim) {
   this.delim = delim || ':';
@@ -170,7 +176,7 @@ Etc.prototype.pkg = function (findModule) {
     }
     else {
       try {
-        pkgPath = findPackage(findModule);
+        pkgPath = findPackagePath(findModule);
       }
       // Do nothing with the error
       catch(e){}
@@ -178,7 +184,7 @@ Etc.prototype.pkg = function (findModule) {
   }
   else {
     try {
-      pkgPath = findPackage(module.parent);
+      pkgPath = findPackagePath(module.parent);
     }
     // Do nothing with the error
     catch(e){}
@@ -197,7 +203,7 @@ Etc.prototype.etc = function (dir) {
   if (!dir) {
     var pkgPath;
     try {
-      pkgPath = findPackage(module.parent);
+      pkgPath = findPackagePath(module.parent);
     }
     // Do nothing with the error
     catch(e){}

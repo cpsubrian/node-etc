@@ -65,6 +65,16 @@ describe('Configuration methods', function () {
     expect(conf.get('meat')).toStrictEqual({white: {chicken: "free-range"}});
   });
 
+  it('can add conf from an explicit module', function () {
+    conf.pkg(module);
+    expect(conf.get('meat')).toStrictEqual({white: {chicken: 'free-range'}});
+  });
+
+  it('can add conf from an explicit package.json path', function () {
+    conf.pkg(require('path').join(__dirname, 'package.json'));
+    expect(conf.get('meat')).toStrictEqual({white: {chicken: 'free-range'}});
+  });
+
   it('can read conf from ./etc', function () {
     conf.etc();
     expect(conf.get('candy')).toStrictEqual({chewy: 'gum'});
